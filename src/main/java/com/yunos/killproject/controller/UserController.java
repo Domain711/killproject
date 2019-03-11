@@ -7,10 +7,10 @@ import com.yunos.killproject.error.EmBusinessError;
 import com.yunos.killproject.response.CommonReturnType;
 import com.yunos.killproject.service.UserService;
 import com.yunos.killproject.service.model.UserModel;
-import org.apache.tomcat.util.security.MD5Encoder;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.DigestUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -18,7 +18,7 @@ import java.util.Random;
 
 @Controller("user")
 @RequestMapping("/user")
-@CrossOrigin
+@CrossOrigin(allowCredentials="true",allowedHeaders = "*")
 public class UserController extends BaseController {
 
     @Autowired
@@ -29,9 +29,9 @@ public class UserController extends BaseController {
 
 
     //用户注册接口
-    @RequestMapping(value = "register", method = RequestMethod.POST, consumes = {CONTENT_TYPE_FORMED})
+    @RequestMapping(value = "reg", method = RequestMethod.POST, consumes = {CONTENT_TYPE_FORMED})
     @ResponseBody
-    public CommonReturnType register(@RequestParam(name = "telphone") String telphone,
+    public CommonReturnType reg(@RequestParam(name = "telphone") String telphone,
                                      @RequestParam(name = "otpCode") String otpCode,
                                      @RequestParam(name = "name") String name,
                                      @RequestParam(name = "age") Integer age,
@@ -54,11 +54,16 @@ public class UserController extends BaseController {
         userModel.setTelphone(telphone);
         userModel.setGender(gender);
         userModel.setRegisterMode("byphone");
-        userModel.setPassword(MD5Encoder.encode(password.getBytes()));
+        userModel.setPassword(encodeByMd5(password));
         userService.register(userModel);
 
         return CommonReturnType.create(null);
 
+    }
+
+    private String encodeByMd5(String str) {
+        String res = DigestUtils.md5DigestAsHex(str.getBytes());
+        return res;
     }
 
     //用户获取otp短信接口
@@ -73,7 +78,7 @@ public class UserController extends BaseController {
 
 
         //将对应的OTP验证码与对应用户的手机号关联起来,暂时使用httpsession的方式存储手机号-验证码
-        httpServletRequest.getSession().setAttribute(telphone, otpCode);
+        this.httpServletRequest.getSession().setAttribute(telphone, otpCode);
 
         //将OTP验证码通过短信通道发送给用户
 
