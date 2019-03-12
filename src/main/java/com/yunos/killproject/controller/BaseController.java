@@ -14,12 +14,13 @@ import java.util.Map;
 
 /**
  * 定义统一异常处理controller
+ *
  * @auth Qin HaiJiang
  * @date 2019/3/8 11:10
  */
 public class BaseController {
 
-    public static final String CONTENT_TYPE_FORMED="application/x-www-form-urlencoded";
+    public static final String CONTENT_TYPE_FORMED = "application/x-www-form-urlencoded";
 
     //定义exceptionHandle 处理未被controller层解决的exception
     @ExceptionHandler(Exception.class)
@@ -29,11 +30,13 @@ public class BaseController {
         CommonReturnType commonReturnType = new CommonReturnType();
         Map<String, Object> data = new HashMap<>();
         if (ex instanceof BusinessException) {
+            ex.printStackTrace();
             BusinessException businessException = (BusinessException) ex;
             commonReturnType.setStatus("fail");
             data.put("errCode", businessException.getErrCode());
             data.put("errMsg", businessException.getErrMsg());
         } else {
+            ex.printStackTrace();
             commonReturnType.setStatus("fail");
             data.put("errCode", EmBusinessError.UNKNOW_ERROR.getErrCode());
             data.put("errMsg", EmBusinessError.UNKNOW_ERROR.getErrMsg());

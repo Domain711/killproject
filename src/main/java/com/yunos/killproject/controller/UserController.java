@@ -7,6 +7,7 @@ import com.yunos.killproject.error.EmBusinessError;
 import com.yunos.killproject.response.CommonReturnType;
 import com.yunos.killproject.service.UserService;
 import com.yunos.killproject.service.model.UserModel;
+import com.yunos.killproject.validation.ValidatorImpl;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,7 +19,7 @@ import java.util.Random;
 
 @Controller("user")
 @RequestMapping("/user")
-@CrossOrigin(allowCredentials="true",allowedHeaders = "*")
+@CrossOrigin(allowCredentials = "true", allowedHeaders = "*")
 public class UserController extends BaseController {
 
     @Autowired
@@ -28,15 +29,31 @@ public class UserController extends BaseController {
     private HttpServletRequest httpServletRequest;
 
 
+
+    //用户登录接口
+    @RequestMapping(value = "login", method = RequestMethod.POST, consumes = {CONTENT_TYPE_FORMED})
+    @ResponseBody
+    public CommonReturnType login(@RequestParam(name = "telphone") String telphone, @RequestParam(name = "password") String password) throws BusinessException {
+        //入参校验
+        if (StringUtils.isEmpty(telphone) || StringUtils.isEmpty(password)) {
+            throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR);
+        }
+        //调用service服务验证用户是否存在
+        UserModel userModel = userService.validateLogin(telphone, DigestUtils.md5DigestAsHex(password.getBytes()));
+        this.httpServletRequest.getSession().setAttribute("LOGIN", true);
+        this.httpServletRequest.getSession().setAttribute("LOGIN_USER", userModel);
+        return CommonReturnType.create(null);
+    }
+
     //用户注册接口
     @RequestMapping(value = "reg", method = RequestMethod.POST, consumes = {CONTENT_TYPE_FORMED})
     @ResponseBody
     public CommonReturnType reg(@RequestParam(name = "telphone") String telphone,
-                                     @RequestParam(name = "otpCode") String otpCode,
-                                     @RequestParam(name = "name") String name,
-                                     @RequestParam(name = "age") Integer age,
-                                     @RequestParam(name = "gender") Integer gender,
-                                     @RequestParam(name = "password") String password
+                                @RequestParam(name = "otpCode") String otpCode,
+                                @RequestParam(name = "name") String name,
+                                @RequestParam(name = "age") Integer age,
+                                @RequestParam(name = "gender") Integer gender,
+                                @RequestParam(name = "password") String password
     ) throws BusinessException {
 
 
@@ -46,6 +63,7 @@ public class UserController extends BaseController {
         if (!StringUtils.equals(inSessionOtpCode, otpCode)) {
             throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR, "短信验证码不正确");
         }
+
 
         //验证码合法进入注册流程
         UserModel userModel = new UserModel();
