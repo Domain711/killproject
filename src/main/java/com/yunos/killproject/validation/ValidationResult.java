@@ -8,7 +8,7 @@ import java.util.Map;
 /**
  * 校验结果类
  *
- * @auth Qin HaiJiang
+ * @author Qin HaiJiang
  * @date 2019/3/12 11:23
  */
 public class ValidationResult {
@@ -37,7 +37,7 @@ public class ValidationResult {
     }
 
     //格式化字符串信息
-    public String getErrMsg(){
-        return StringUtils.join(errMsgMap.values().toArray(),",");
+    public String getErrMsg() {
+        return StringUtils.join(errMsgMap.values().toArray(), ",");
     }
 }

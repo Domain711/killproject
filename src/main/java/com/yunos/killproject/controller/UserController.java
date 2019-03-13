@@ -7,7 +7,6 @@ import com.yunos.killproject.error.EmBusinessError;
 import com.yunos.killproject.response.CommonReturnType;
 import com.yunos.killproject.service.UserService;
 import com.yunos.killproject.service.model.UserModel;
-import com.yunos.killproject.validation.ValidatorImpl;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -22,12 +21,15 @@ import java.util.Random;
 @CrossOrigin(allowCredentials = "true", allowedHeaders = "*")
 public class UserController extends BaseController {
 
-    @Autowired
-    private UserService userService;
+    private final UserService userService;
+
+    private final HttpServletRequest httpServletRequest;
 
     @Autowired
-    private HttpServletRequest httpServletRequest;
-
+    public UserController(UserService userService, HttpServletRequest httpServletRequest) {
+        this.userService = userService;
+        this.httpServletRequest = httpServletRequest;
+    }
 
 
     //用户登录接口
@@ -80,8 +82,7 @@ public class UserController extends BaseController {
     }
 
     private String encodeByMd5(String str) {
-        String res = DigestUtils.md5DigestAsHex(str.getBytes());
-        return res;
+        return DigestUtils.md5DigestAsHex(str.getBytes());
     }
 
     //用户获取otp短信接口
