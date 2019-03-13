@@ -17,21 +17,27 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
- * @auth Qin HaiJiang
+ * @author Qin HaiJiang
  * @date 2019/3/13 9:12
  */
 @Service
 public class ItemServiceImpl implements ItemService {
-    @Autowired
-    private ValidatorImpl validator;
+    private final ValidatorImpl validator;
+
+    private final ItemDOMapper itemDOMapper;
+
+    private final ItemStockDoMapper itemStockDoMapper;
+
 
     @Autowired
-    private ItemDOMapper itemDOMapper;
-
-    @Autowired
-    private ItemStockDoMapper itemStockDoMapper;
+    public ItemServiceImpl(ValidatorImpl validator, ItemDOMapper itemDOMapper, ItemStockDoMapper itemStockDoMapper) {
+        this.validator = validator;
+        this.itemDOMapper = itemDOMapper;
+        this.itemStockDoMapper = itemStockDoMapper;
+    }
 
 
     private ItemDO convertItemDoFromItemModel(ItemModel itemModel) {
@@ -78,7 +84,12 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public List<ItemModel> listItem() {
-        return null;
+        List<ItemDO> listItem = itemDOMapper.listItem();
+        return listItem.stream().map(itemDO -> {
+            ItemStockDo itemStockDo = itemStockDoMapper.selectByItemId(itemDO.getId());
+            return this.convertItemModelFromDataObject(itemDO, itemStockDo);
+
+        }).collect(Collectors.toList());
     }
 
     @Override
@@ -93,8 +104,7 @@ public class ItemServiceImpl implements ItemService {
         ItemStockDo itemStockDo = itemStockDoMapper.selectByItemId(id);
 
         //dataobject->itemModel
-        ItemModel itemModel = convertItemModelFromDataObject(itemDO, itemStockDo);
-        return itemModel;
+        return convertItemModelFromDataObject(itemDO, itemStockDo);
     }
 
     private ItemModel convertItemModelFromDataObject(ItemDO itemDO, ItemStockDo itemStockDo) {
