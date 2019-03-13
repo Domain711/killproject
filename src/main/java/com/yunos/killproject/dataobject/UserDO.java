@@ -1,5 +1,8 @@
 package com.yunos.killproject.dataobject;
 
+/**
+ * 用户DataObject
+ */
 public class UserDO {
     /**
      *

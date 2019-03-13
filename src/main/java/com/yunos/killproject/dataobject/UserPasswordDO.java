@@ -1,5 +1,8 @@
 package com.yunos.killproject.dataobject;
 
+/**
+ * 用户-密码DataObject
+ */
 public class UserPasswordDO {
     /**
      *

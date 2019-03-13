@@ -1,5 +1,8 @@
 package com.yunos.killproject.controller.viewobject;
 
+/**
+ * 前端用户信息展示层vo
+ */
 public class UserVo {
     private Integer id;
     private String name;

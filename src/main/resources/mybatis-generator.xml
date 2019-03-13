@@ -45,6 +45,7 @@
         </javaClientGenerator>
 
         <!--生成与表对应的类名-->
+        <!--
         <table tableName="user_info" domainObjectName="UserDO" enableCountByExample="false"
                enableDeleteByExample="false" enableUpdateByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false"
@@ -52,6 +53,14 @@
         <table tableName="user_password" domainObjectName="UserPasswordDO" enableCountByExample="false"
                enableDeleteByExample="false" enableUpdateByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false"/>
+               -->
+        <table tableName="item" domainObjectName="ItemDO" enableCountByExample="false"
+               enableDeleteByExample="false" enableUpdateByExample="false" enableSelectByExample="false"
+               selectByExampleQueryId="false"/>
+        <table tableName="item_stock" domainObjectName="ItemStockDo" enableCountByExample="false"
+               enableDeleteByExample="false" enableUpdateByExample="false" enableSelectByExample="false"
+               selectByExampleQueryId="false"/>
+
     </context>
 
 </generatorConfiguration>

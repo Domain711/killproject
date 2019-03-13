@@ -57,6 +57,12 @@
             <artifactId>commons-lang3</artifactId>
             <version>3.7</version>
         </dependency>
+        <!--hibernate-validator -->
+        <dependency>
+            <groupId>org.hibernate.validator</groupId>
+            <artifactId>hibernate-validator</artifactId>
+            <version>6.0.13.Final</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -98,7 +104,7 @@
                     <!--是否允许移动-->
                     <verbose>true</verbose>
                     <!--是否覆盖，正式环境下不要设置为true-->
-                    <overwrite>true</overwrite>
+                    <overwrite>false</overwrite>
                     <!--配置generator 配置文件路径-->
                     <configurationFile>
                         src/main/resources/mybatis-generator.xml
