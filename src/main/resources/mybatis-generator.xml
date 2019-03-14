@@ -54,10 +54,13 @@
                enableDeleteByExample="false" enableUpdateByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false"/>
                -->
-        <table tableName="item" domainObjectName="ItemDO" enableCountByExample="false"
-               enableDeleteByExample="false" enableUpdateByExample="false" enableSelectByExample="false"
-               selectByExampleQueryId="false"/>
-        <table tableName="item_stock" domainObjectName="ItemStockDo" enableCountByExample="false"
+        <!--<table tableName="item" domainObjectName="ItemDO" enableCountByExample="false"-->
+               <!--enableDeleteByExample="false" enableUpdateByExample="false" enableSelectByExample="false"-->
+               <!--selectByExampleQueryId="false"/>-->
+        <!--<table tableName="item_stock" domainObjectName="ItemStockDo" enableCountByExample="false"-->
+               <!--enableDeleteByExample="false" enableUpdateByExample="false" enableSelectByExample="false"-->
+               <!--selectByExampleQueryId="false"/>-->
+        <table tableName="order" domainObjectName="OrderDo" enableCountByExample="false"
                enableDeleteByExample="false" enableUpdateByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false"/>
 
