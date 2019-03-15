@@ -18,13 +18,16 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class UserServiceImpl implements UserService {
-    @Autowired
-    private UserDOMapper userDOMapper;
-    @Autowired
-    private UserPasswordDOMapper userPasswordDOMapper;
+    private final UserDOMapper userDOMapper;
+    private final UserPasswordDOMapper userPasswordDOMapper;
+    private final ValidatorImpl validator;
 
     @Autowired
-    private ValidatorImpl validator;
+    public UserServiceImpl(UserDOMapper userDOMapper, UserPasswordDOMapper userPasswordDOMapper, ValidatorImpl validator) {
+        this.userDOMapper = userDOMapper;
+        this.userPasswordDOMapper = userPasswordDOMapper;
+        this.validator = validator;
+    }
 
 
     @Override
@@ -76,8 +79,8 @@ public class UserServiceImpl implements UserService {
         //使用validator做校验
         ValidationResult validationResult = validator.validate(userModel);
 
-        if(validationResult.isHasError()){
-            throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,validationResult.getErrMsg());
+        if (validationResult.isHasError()) {
+            throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR, validationResult.getErrMsg());
         }
         //model->dataobject
         UserDO userDO = convertFromModel(userModel);

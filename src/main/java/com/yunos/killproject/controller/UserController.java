@@ -20,9 +20,7 @@ import java.util.Random;
 @RequestMapping("/user")
 @CrossOrigin(allowCredentials = "true", allowedHeaders = "*")
 public class UserController extends BaseController {
-
     private final UserService userService;
-
     private final HttpServletRequest httpServletRequest;
 
     @Autowired
@@ -42,8 +40,9 @@ public class UserController extends BaseController {
         }
         //调用service服务验证用户是否存在
         UserModel userModel = userService.validateLogin(telphone, DigestUtils.md5DigestAsHex(password.getBytes()));
-        this.httpServletRequest.getSession().setAttribute("LOGIN", true);
+        this.httpServletRequest.getSession().setAttribute("IS_LOGIN", true);
         this.httpServletRequest.getSession().setAttribute("LOGIN_USER", userModel);
+
         return CommonReturnType.create(null);
     }
 

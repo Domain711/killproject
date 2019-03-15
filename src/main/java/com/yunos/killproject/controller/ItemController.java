@@ -25,8 +25,13 @@ import java.util.stream.Collectors;
 @CrossOrigin(allowCredentials = "true", allowedHeaders = "*")
 public class ItemController extends BaseController {
 
+    private final ItemService itemService;
+
+
     @Autowired
-    private ItemService itemService;
+    public ItemController(ItemService itemService) {
+        this.itemService = itemService;
+    }
 
 
     /**
@@ -38,7 +43,6 @@ public class ItemController extends BaseController {
     @ResponseBody
     public CommonReturnType listItem() {
         List<ItemModel> listItemModel = itemService.listItem();
-
         //model -vo
         List<ItemVo> itemVoList = listItemModel.stream().map(this::convertItemVoFromItemModel).collect(Collectors.toList());
         return CommonReturnType.create(itemVoList);

@@ -60,7 +60,12 @@
         <!--<table tableName="item_stock" domainObjectName="ItemStockDo" enableCountByExample="false"-->
                <!--enableDeleteByExample="false" enableUpdateByExample="false" enableSelectByExample="false"-->
                <!--selectByExampleQueryId="false"/>-->
-        <table tableName="order" domainObjectName="OrderDo" enableCountByExample="false"
+        <!--<table tableName="order" domainObjectName="OrderInfoDo" enableCountByExample="false"-->
+               <!--enableDeleteByExample="false" enableUpdateByExample="false" enableSelectByExample="false"-->
+               <!--selectByExampleQueryId="false"/>-->
+
+        <!--selectByExampleQueryId="false"/>-->
+        <table tableName="sequence_info" domainObjectName="SequenceDo" enableCountByExample="false"
                enableDeleteByExample="false" enableUpdateByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false"/>
 

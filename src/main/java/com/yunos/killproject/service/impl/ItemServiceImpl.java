@@ -117,4 +117,15 @@ public class ItemServiceImpl implements ItemService {
         itemModel.setStock(itemStockDo.getStock());
         return itemModel;
     }
+
+    @Override
+    @Transactional
+    public boolean decreaseStock(Integer itemId, Integer itemAmount) {
+        int affectRow = itemStockDoMapper.decreaseStock(itemId, itemAmount);
+        if (0 < affectRow) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }
