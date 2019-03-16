@@ -24,4 +24,11 @@ public interface ItemService {
 
     // 库存扣减
     boolean decreaseStock(Integer itemId,Integer itemAmount);
+
+    /**
+     * 增加销量
+     * @param itemId 商品id
+     * @param amount 商品数量
+     */
+    void increaseSales(Integer itemId,Integer amount);
 }

@@ -80,6 +80,9 @@ public class OrderServiceImpl implements OrderService {
         OrderInfoDo orderDo = convertOderDoFromOrderModel(order);
         orderDoMapper.insertSelective(orderDo);
 
+        //商品销量增加
+        itemService.increaseSales(itemId,itemAmount);
+
         //4 前端反馈
         return order;
     }

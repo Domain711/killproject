@@ -29,4 +29,12 @@ public interface ItemDOMapper {
 
 
     int updateByPrimaryKey(ItemDO record);
+
+    /**
+     * 增加销售量
+     * @param itemId 商品id
+     * @param amount 商品数量
+     * @return
+     */
+    int increaseSales(Integer itemId,Integer amount);
 }
