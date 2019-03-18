@@ -1,5 +1,7 @@
 package com.yunos.killproject.controller.viewobject;
 
+import org.joda.time.DateTime;
+
 import java.math.BigDecimal;
 
 /**
@@ -28,6 +30,19 @@ public class ItemVo {
 
     //商品图片的url
     private String imgUrl;
+
+
+    //秒杀状态 0 没有秒杀活动 1秒杀活动未开始 2 秒杀进行中
+    private Integer promoStatus;
+
+    //秒杀活动价格
+    private BigDecimal promoPrice;
+
+    //秒杀活动Id
+    private Integer promoId;
+
+    //秒杀活动开始时间
+    private String startTime;
 
     public Integer getId() {
         return id;
@@ -83,5 +98,37 @@ public class ItemVo {
 
     public void setImgUrl(String imgUrl) {
         this.imgUrl = imgUrl;
+    }
+
+    public Integer getPromoStatus() {
+        return promoStatus;
+    }
+
+    public void setPromoStatus(Integer promoStatus) {
+        this.promoStatus = promoStatus;
+    }
+
+    public BigDecimal getPromoPrice() {
+        return promoPrice;
+    }
+
+    public void setPromoPrice(BigDecimal promoPrice) {
+        this.promoPrice = promoPrice;
+    }
+
+    public Integer getPromoId() {
+        return promoId;
+    }
+
+    public void setPromoId(Integer promoId) {
+        this.promoId = promoId;
+    }
+
+    public String getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(String startTime) {
+        this.startTime = startTime;
     }
 }

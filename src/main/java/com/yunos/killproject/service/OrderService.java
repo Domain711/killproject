@@ -18,11 +18,12 @@ public interface OrderService {
      *
      * @param userId     用户id
      * @param itemId     商品id
+     * @param promoId   秒杀活动id
      * @param itemAmount 商品数量
      * @return orderModel
      * @throws BusinessException
      */
-    OrderModel createOrder(Integer userId, Integer itemId, Integer itemAmount) throws BusinessException;
+    OrderModel createOrder(Integer userId, Integer itemId, Integer promoId,Integer itemAmount) throws BusinessException;
 
     // 查询交易订单
     List<OrderModel> listOrder();

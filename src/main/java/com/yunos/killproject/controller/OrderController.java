@@ -37,17 +37,20 @@ public class OrderController extends BaseController {
      *
      * @param itemId 商品id
      * @param amount 商品数量
+     * @param promoId 秒杀活动id
      * @return
      */
     @RequestMapping(value = "/createOrder", method = RequestMethod.POST, consumes = CONTENT_TYPE_FORMED)
     @ResponseBody
-    public CommonReturnType createOrder(@RequestParam(name = "itemId") Integer itemId, @RequestParam(name = "amount") Integer amount) throws BusinessException {
+    public CommonReturnType createOrder(@RequestParam(name = "itemId") Integer itemId, @RequestParam(name = "amount") Integer amount,
+                                        @RequestParam(name="promoId")Integer promoId
+    ) throws BusinessException {
         Boolean is_login = (Boolean) httpServletRequest.getSession().getAttribute("IS_LOGIN");
         if (null == is_login || !is_login) {
             throw new BusinessException(EmBusinessError.USER_NOT_LOGIN, "用户尚未登录");
         }
         UserModel userModel = (UserModel) httpServletRequest.getSession().getAttribute("LOGIN_USER");
-        OrderModel order = orderService.createOrder(userModel.getId(), itemId, amount);
+        OrderModel order = orderService.createOrder(userModel.getId(), itemId, promoId,amount);
         return CommonReturnType.create(null);
     }
 }

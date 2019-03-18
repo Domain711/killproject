@@ -5,6 +5,9 @@ import com.yunos.killproject.error.BusinessException;
 import com.yunos.killproject.response.CommonReturnType;
 import com.yunos.killproject.service.ItemService;
 import com.yunos.killproject.service.model.ItemModel;
+import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -101,6 +104,14 @@ public class ItemController extends BaseController {
         }
         ItemVo itemVo = new ItemVo();
         BeanUtils.copyProperties(itemModel, itemVo);
+        if (null != itemModel.getPromoModel()) {//有秒杀活动
+            itemVo.setPromoStatus(itemModel.getPromoModel().getStatus());
+            itemVo.setPromoId(itemModel.getPromoModel().getId());
+            itemVo.setPromoPrice(itemModel.getPromoModel().getPromoPrice());
+            itemVo.setStartTime(itemModel.getPromoModel().getStartTime().toString("yyyy-MM-dd HH:mm:ss"));
+        } else {//没有秒杀活动
+            itemVo.setPromoStatus(0);
+        }
         return itemVo;
     }
 }

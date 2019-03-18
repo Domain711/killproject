@@ -46,7 +46,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     @Transactional
-    public OrderModel createOrder(Integer userId, Integer itemId, Integer itemAmount) throws BusinessException {
+    public OrderModel createOrder(Integer userId, Integer itemId, Integer promoId, Integer itemAmount) throws BusinessException {
         //1 校验订单状态 ，校验用户是否存在，校验商品是否存在，校验数量是否合法
         UserModel user = userService.getUserById(userId);
         if (null == user) {
@@ -60,6 +60,16 @@ public class OrderServiceImpl implements OrderService {
         if (0 > itemAmount || 150 < itemAmount) {
             throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR, "数量信息不合法");
         }
+        //校验秒杀活动信息
+        if (null != promoId) {
+            // 校验是否适用于当前商品
+            if (promoId != item.getPromoModel().getId()) {
+                throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR, "商品秒杀的活动信息不存在");
+            } else if (item.getPromoModel().getStatus().intValue() != 2) {
+                throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR, "商品秒杀的活动尚未开始");
+            }
+        }
+
         //2 下单减库存
         boolean result = itemService.decreaseStock(itemId, itemAmount);
         if (!result) {
@@ -70,9 +80,14 @@ public class OrderServiceImpl implements OrderService {
         OrderModel order = new OrderModel();
         order.setUserId(userId);
         order.setItemId(itemId);
-        order.setItemPrice(item.getPrice());
+        if (null != promoId) {//存在秒杀活动，去秒杀价格
+            order.setItemPrice(item.getPromoModel().getPromoPrice());
+        } else {
+            order.setItemPrice(item.getPrice());
+        }
         order.setAmount(itemAmount);
-        order.setOrderAmount(item.getPrice().multiply(new BigDecimal(itemAmount)));
+        order.setPromoId(promoId);
+        order.setOrderAmount(order.getItemPrice().multiply(new BigDecimal(itemAmount)));
 
         //model - dataobject
         //生成交易流水号
@@ -81,7 +96,7 @@ public class OrderServiceImpl implements OrderService {
         orderDoMapper.insertSelective(orderDo);
 
         //商品销量增加
-        itemService.increaseSales(itemId,itemAmount);
+        itemService.increaseSales(itemId, itemAmount);
 
         //4 前端反馈
         return order;

@@ -24,6 +24,9 @@ public class OrderModel {
     //购买数量
     private Integer amount;
 
+    //秒杀活动id
+    private Integer promoId;
+
     //购买金额
     private BigDecimal orderAmount;
 
@@ -73,5 +76,13 @@ public class OrderModel {
 
     public void setItemPrice(BigDecimal itemPrice) {
         this.itemPrice = itemPrice;
+    }
+
+    public Integer getPromoId() {
+        return promoId;
+    }
+
+    public void setPromoId(Integer promoId) {
+        this.promoId = promoId;
     }
 }

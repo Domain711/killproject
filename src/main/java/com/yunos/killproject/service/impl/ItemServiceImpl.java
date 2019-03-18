@@ -2,12 +2,16 @@ package com.yunos.killproject.service.impl;
 
 import com.yunos.killproject.dao.ItemDOMapper;
 import com.yunos.killproject.dao.ItemStockDoMapper;
+import com.yunos.killproject.dao.PromoDoMapper;
 import com.yunos.killproject.dataobject.ItemDO;
 import com.yunos.killproject.dataobject.ItemStockDo;
+import com.yunos.killproject.dataobject.PromoDo;
 import com.yunos.killproject.error.BusinessException;
 import com.yunos.killproject.error.EmBusinessError;
 import com.yunos.killproject.service.ItemService;
+import com.yunos.killproject.service.PromoService;
 import com.yunos.killproject.service.model.ItemModel;
+import com.yunos.killproject.service.model.PromoModel;
 import com.yunos.killproject.validation.ValidationResult;
 import com.yunos.killproject.validation.ValidatorImpl;
 import org.springframework.beans.BeanUtils;
@@ -32,11 +36,15 @@ public class ItemServiceImpl implements ItemService {
     private final ItemStockDoMapper itemStockDoMapper;
 
 
+    private final PromoService promoService;
+
+
     @Autowired
-    public ItemServiceImpl(ValidatorImpl validator, ItemDOMapper itemDOMapper, ItemStockDoMapper itemStockDoMapper) {
+    public ItemServiceImpl(ValidatorImpl validator, ItemDOMapper itemDOMapper, ItemStockDoMapper itemStockDoMapper, PromoService promoService) {
         this.validator = validator;
         this.itemDOMapper = itemDOMapper;
         this.itemStockDoMapper = itemStockDoMapper;
+        this.promoService = promoService;
     }
 
 
@@ -104,7 +112,16 @@ public class ItemServiceImpl implements ItemService {
         ItemStockDo itemStockDo = itemStockDoMapper.selectByItemId(id);
 
         //dataobject->itemModel
-        return convertItemModelFromDataObject(itemDO, itemStockDo);
+        ItemModel itemModel = convertItemModelFromDataObject(itemDO, itemStockDo);
+
+        //获取秒杀信息
+        PromoModel promoModel = promoService.getPromoByItemId(id);
+        if (null != promoModel && 3 != promoModel.getStatus().intValue()) {
+            //获取配置了秒杀信息，并且秒杀活动还未结束的商品信息
+            itemModel.setPromoModel(promoModel);
+        }
+
+        return itemModel;
     }
 
     private ItemModel convertItemModelFromDataObject(ItemDO itemDO, ItemStockDo itemStockDo) {
@@ -131,6 +148,6 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public void increaseSales(Integer itemId, Integer amount) {
-        itemDOMapper.increaseSales(itemId,amount);
+        itemDOMapper.increaseSales(itemId, amount);
     }
 }
