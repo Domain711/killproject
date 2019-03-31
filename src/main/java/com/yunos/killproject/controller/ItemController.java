@@ -5,14 +5,12 @@ import com.yunos.killproject.error.BusinessException;
 import com.yunos.killproject.response.CommonReturnType;
 import com.yunos.killproject.service.ItemService;
 import com.yunos.killproject.service.model.ItemModel;
-import org.joda.time.DateTime;
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -30,10 +28,13 @@ public class ItemController extends BaseController {
 
     private final ItemService itemService;
 
+    private final HttpServletRequest request;
+
 
     @Autowired
-    public ItemController(ItemService itemService) {
+    public ItemController(ItemService itemService, HttpServletRequest request) {
         this.itemService = itemService;
+        this.request = request;
     }
 
 
@@ -45,6 +46,8 @@ public class ItemController extends BaseController {
     @RequestMapping(value = "/listItem", method = RequestMethod.GET)
     @ResponseBody
     public CommonReturnType listItem() {
+        String proId = request.getParameter("proId");
+        System.out.printf(proId);
         List<ItemModel> listItemModel = itemService.listItem();
         //model -vo
         List<ItemVo> itemVoList = listItemModel.stream().map(this::convertItemVoFromItemModel).collect(Collectors.toList());
