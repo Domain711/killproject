@@ -46,13 +46,17 @@ public class CarServiceImpl implements CarService {
     @Override
     public CarDetailModel getCarDetailById(Integer carId) {
         CarDetailModel carDetailModel = new CarDetailModel();
+
+        // 获取车型的基本信息
+        CarDo carDo = carDoMapper.selectByPrimaryKey(carId);
+        carDetailModel.setCarModel(convertCarModelFromCarDo(carDo));
+
         //获取该车型的所有模块配置并且转化成model
         List<CarModuleConfigDo> configList = carModuleConfigDoMapper.getModuleConfigByCarId(carId);
 
         // 获取该车型的所有模块
         List<CarModuleDo> carModuleDoList = carModuleDoMapper.getCarDetailById(carId);
         Map<Integer, List<CarModuleDo>> carModule = carModuleDoList.stream().collect(Collectors.groupingBy(CarModuleDo::getModuleType));
-
 
         // 1 获取封面
         List<CarModuleModel> cover = relatedModuleAndModuleConfig(carModule.get(0), configList);

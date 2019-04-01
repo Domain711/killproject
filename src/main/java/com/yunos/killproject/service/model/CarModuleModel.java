@@ -1,7 +1,5 @@
 package com.yunos.killproject.service.model;
 
-import com.yunos.killproject.dataobject.CarModuleConfigDo;
-
 import java.util.List;
 
 /**

@@ -8,6 +8,7 @@ public interface CarModuleDoMapper {
 
     /**
      * 根据车型获取车型的详细信息
+     *
      * @param carId 车型id
      * @return CarModuleModel
      */

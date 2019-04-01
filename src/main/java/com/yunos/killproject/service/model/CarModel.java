@@ -9,6 +9,7 @@ import java.math.BigDecimal;
  * @Date: 2019/3/28 10:24
  */
 public class CarModel {
+
     /* 车型id */
     private Integer id;
     /* 车型名称 */
@@ -19,6 +20,14 @@ public class CarModel {
     private BigDecimal maxPrice;
     /* 车型封面图 */
     private String carImgUrl;
+    /* 车型的长度 */
+    private Integer carLength;
+    /* 车型的宽度 */
+    private Integer carWidth;
+    /* 车型的高度 */
+    private Integer carHeight;
+    /* 轴距 */
+    private Integer carWheelbase;
 
     public String getCarName() {
         return carName;
@@ -58,5 +67,37 @@ public class CarModel {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public Integer getCarLength() {
+        return carLength;
+    }
+
+    public void setCarLength(Integer carLength) {
+        this.carLength = carLength;
+    }
+
+    public Integer getCarWidth() {
+        return carWidth;
+    }
+
+    public void setCarWidth(Integer carWidth) {
+        this.carWidth = carWidth;
+    }
+
+    public Integer getCarHeight() {
+        return carHeight;
+    }
+
+    public void setCarHeight(Integer carHeight) {
+        this.carHeight = carHeight;
+    }
+
+    public Integer getCarWheelbase() {
+        return carWheelbase;
+    }
+
+    public void setCarWheelbase(Integer carWheelbase) {
+        this.carWheelbase = carWheelbase;
     }
 }

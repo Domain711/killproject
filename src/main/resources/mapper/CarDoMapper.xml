@@ -13,10 +13,15 @@
     <result column="max_price" jdbcType="DOUBLE" property="maxPrice" />
     <result column="carImgUrl" jdbcType="VARCHAR" property="carImgUrl" />
     <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="carLength" jdbcType="INTEGER" property="carLength" />
+    <result column="carWidth" jdbcType="INTEGER" property="carWidth" />
+    <result column="carHeight" jdbcType="INTEGER" property="carHeight" />
+    <result column="carWheelbase" jdbcType="INTEGER" property="carWheelbase" />
+    <result column="displayOrder" jdbcType="INTEGER" property="displayOrder" />
   </resultMap>
   <sql id="Base_Column_List">
 
-    id, car_name, min_price, max_price, carImgUrl,status
+    id, car_name, min_price, max_price, carImgUrl,status,carLength,carWidth,carHeight,carWheelbase,displayOrder
   </sql>
 
   <select id="lsitCar" resultMap="BaseResultMap">
@@ -40,9 +45,12 @@
   <insert id="insert" parameterType="com.yunos.killproject.dataobject.CarDo">
 
     insert into car_info (id, car_name, min_price, 
-      max_price, carImgUrl,status)
+      max_price, carImgUrl,status,carLength,carWidth,carHeight,carWheelbase,displayOrder)
     values (#{id,jdbcType=INTEGER}, #{carName,jdbcType=VARCHAR}, #{minPrice,jdbcType=DOUBLE}, 
-      #{maxPrice,jdbcType=DOUBLE}, #{carimgurl,jdbcType=VARCHAR},#{status,jdbcType=INTEGER})
+      #{maxPrice,jdbcType=DOUBLE}, #{carimgurl,jdbcType=VARCHAR},#{status,jdbcType=INTEGER},
+      #{carLength,jdbcType=INTEGER},#{carWidth,jdbcType=INTEGER},#{carHeight,jdbcType=INTEGER},
+      #{carWheelbase,jdbcType=INTEGER},#{displayOrder,jdbcType=INTEGER}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.yunos.killproject.dataobject.CarDo">
 
@@ -66,6 +74,21 @@
       <if test="status != null">
         status,
       </if>
+      <if test="carLength != null">
+        carLength,
+      </if>
+      <if test="carWidth != null">
+        carWidth,
+      </if>
+      <if test="carHeight != null">
+        carHeight,
+      </if>
+      <if test="carWheelbase != null">
+        carWheelbase,
+      </if>
+      <if test="displayOrder != null">
+        displayOrder,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -86,6 +109,21 @@
       <if test="status != null">
         #{status,jdbcType=INTEGER},
       </if>
+      <if test="carLength != null">
+        #{carLength,jdbcType=INTEGER},
+      </if>
+      <if test="carWidth != null">
+        #{carWidth,jdbcType=INTEGER},
+      </if>
+      <if test="carHeight != null">
+        #{carHeight,jdbcType=INTEGER},
+      </if>
+      <if test="carWheelbase != null">
+        #{carWheelbase,jdbcType=INTEGER},
+      </if>
+      <if test="displayOrder != null">
+        #{displayOrder,jdbcType=INTEGER},
+      </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.yunos.killproject.dataobject.CarDo">
@@ -105,7 +143,22 @@
         carImgUrl = #{carimgurl,jdbcType=VARCHAR},
       </if>
       <if test="status != null">
-        carImgUrl = #{status,jdbcType=INTEGER},
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="carLength != null">
+        carLength = #{carLength,jdbcType=INTEGER},
+      </if>
+      <if test="carWidth != null">
+        carWidth = #{carWidth,jdbcType=INTEGER},
+      </if>
+      <if test="carHeight != null">
+        carHeight = #{carHeight,jdbcType=INTEGER},
+      </if>
+      <if test="carWheelbase != null">
+        carWheelbase = #{carWheelbase,jdbcType=INTEGER},
+      </if>
+      <if test="displayOrder != null">
+        displayOrder = #{displayOrder,jdbcType=INTEGER},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
@@ -118,6 +171,11 @@
       max_price = #{maxPrice,jdbcType=DOUBLE},
       carImgUrl = #{carimgurl,jdbcType=VARCHAR},
       status = #{status,jdbcType=INTEGER},
+      carLength = #{carLength,jdbcType=INTEGER},
+      carWidth = #{carWidth,jdbcType=INTEGER},
+      carHeight = #{carHeight,jdbcType=INTEGER},
+      carWheelbase = #{carWheelbase,jdbcType=INTEGER},
+      displayOrder = #{displayOrder,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
 

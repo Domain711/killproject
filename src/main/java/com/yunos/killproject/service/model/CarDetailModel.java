@@ -7,6 +7,9 @@ import java.util.List;
  */
 public class CarDetailModel {
 
+    /* 车型基本信息 */
+    private CarModel carModel;
+
     /* 1 封面部分 */
     private CarModuleModel covers;
 
@@ -39,5 +42,13 @@ public class CarDetailModel {
 
     public void setCarDetailWholes(CarModuleModel carDetailWholes) {
         this.carDetailWholes = carDetailWholes;
+    }
+
+    public CarModel getCarModel() {
+        return carModel;
+    }
+
+    public void setCarModel(CarModel carModel) {
+        this.carModel = carModel;
     }
 }
